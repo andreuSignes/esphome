@@ -268,6 +268,20 @@ def test_esp32_configuration_errors(
             ("esp-tls", "esp_http_client"),
             id="nextion",
         ),
+        pytest.param(
+            # esp_wifi from wifi, bt from esp32_ble, esp_coex from
+            # esp32_ble_tracker's software coexistence (defaults on with wifi).
+            # wpa_supplicant/esp_phy stay excluded; IDF requirement expansion
+            # pulls them back via esp_wifi.
+            "exclusion_reincludes_wifi_ble.yaml",
+            ("esp_wifi", "bt", "esp_coex"),
+            id="wifi_ble",
+        ),
+        pytest.param(
+            "exclusion_reincludes_espnow.yaml",
+            ("esp_wifi",),
+            id="espnow",
+        ),
     ],
 )
 def test_default_exclusions_reincluded_by_owning_components(

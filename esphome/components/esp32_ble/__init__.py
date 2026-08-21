@@ -19,6 +19,7 @@ from esphome.components.esp32 import (
     add_idf_sdkconfig_option,
     const,
     get_esp32_variant,
+    include_builtin_idf_component,
     request_bluetooth,
 )
 from esphome.components.esp32.const import VARIANT_ESP32C2
@@ -520,6 +521,7 @@ FINAL_VALIDATE_SCHEMA = final_validation
 
 
 async def to_code(config: ConfigType) -> None:
+    include_builtin_idf_component("bt")
     var = cg.new_Pvariable(config[CONF_ID])
     cg.add(var.set_enable_on_boot(config[CONF_ENABLE_ON_BOOT]))
     cg.add(var.set_io_capability(config[CONF_IO_CAPABILITY]))

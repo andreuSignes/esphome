@@ -212,11 +212,13 @@ COMPILER_OPTIMIZATIONS = {
 # builds that need them.
 DEFAULT_EXCLUDED_IDF_COMPONENTS = (
     "app_trace",  # CPU trace/SystemView support - unused by ESPHome
+    "bt",  # Bluetooth stack - re-included by esp32_ble; its REQUIRES pulls the WiFi stack back
     "cmock",  # Unit testing mock framework - ESPHome doesn't use IDF's testing
     "console",  # Console REPL - unused by ESPHome; espressif/mdns pulls it back when configured
     "driver",  # Legacy driver shim - only needed by esp32_touch, esp32_can for legacy headers
     "esp-tls",  # TLS wrapper - re-included by http_request, mqtt, web_server_idf
     "esp_adc",  # ADC driver - only needed by adc component
+    "esp_coex",  # WiFi/BT coexistence - re-included by esp32_ble_tracker, zigbee; esp_wifi/bt pull it back
     "esp_driver_cam",  # Camera driver - the esp32-camera managed component pulls it back
     "esp_driver_dac",  # DAC driver - only needed by esp32_dac component
     "esp_driver_gptimer",  # General purpose timer - re-included by ac_dimmer, opentherm, Arduino BLE libs
@@ -239,8 +241,11 @@ DEFAULT_EXCLUDED_IDF_COMPONENTS = (
     "esp_https_server",  # HTTPS server - ESPHome has its own web server
     "esp_lcd",  # LCD controller drivers - only needed by display component
     "esp_local_ctrl",  # Local control over HTTPS/BLE - ESPHome has native API
+    "esp_phy",  # RF PHY - esp_wifi/bt/ieee802154 pull it back when they are in the build
+    "esp_wifi",  # WiFi stack - re-included by wifi, espnow; bt pulls it back for BLE builds
     "espcoredump",  # Core dump support - ESPHome has its own debug component
     "fatfs",  # FAT filesystem - ESPHome doesn't use filesystem storage
+    "ieee802154",  # 802.15.4 radio - IDF openthread and the Zigbee libs pull it back
     "json",  # cJSON library - ESPHome uses ArduinoJson instead
     "mqtt",  # ESP-IDF MQTT library - ESPHome has its own MQTT implementation
     "openthread",  # Thread protocol - only needed by openthread component
@@ -255,6 +260,7 @@ DEFAULT_EXCLUDED_IDF_COMPONENTS = (
     "unity",  # Unit testing framework - ESPHome doesn't use IDF's testing
     "wear_levelling",  # Flash wear levelling for fatfs - unused since fatfs unused
     "wifi_provisioning",  # WiFi provisioning - ESPHome uses its own improv implementation
+    "wpa_supplicant",  # WPA supplicant - esp_wifi pulls it back when the WiFi stack is in the build
 )
 
 # Additional IDF managed components to exclude for Arduino framework builds

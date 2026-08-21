@@ -11,6 +11,7 @@ from esphome.components.const import CONF_ON_SCAN_END, CONF_SCAN_PARAMETERS, CON
 from esphome.components.esp32 import (
     add_idf_sdkconfig_option,
     idf_version,
+    include_builtin_idf_component,
     request_bluetooth,
     request_software_coexistence,
 )
@@ -355,6 +356,7 @@ async def to_code(config: ConfigType) -> None:
 
     if config.get(CONF_SOFTWARE_COEXISTENCE):
         cg.add_define("USE_ESP32_BLE_SOFTWARE_COEXISTENCE")
+        include_builtin_idf_component("esp_coex")
 
 
 # This needs to be run as a job with very low priority so that all components have
